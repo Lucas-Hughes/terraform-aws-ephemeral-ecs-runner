@@ -142,23 +142,24 @@ Please note that you must provide either the property `vpc_cidr_block` which wil
 
 ```hcl
 module "serverless_ecs_runner" {
-  source  = "gitlab.com/pearsontechnology/terraform-composite-modules-gitlab-runners/aws//serverless-ecs"
-  version = "latest" # needs to be a specific version
+  source  = "<module_url>"
+  version = "<module_version>"
 
-  project_name            = "forge-demo"
-  vpc_cidr_block          = "143.10.0.0/24" #or you can pass in `private_subnets = ["your_subnet_id"]` to use an already existing VPC
-  gitlab_runner_ecr_uri   = "821585847758.dkr.ecr.us-east-1.amazonaws.com/forge/ecs-gitlab-runner:latest"
-  gitlab_runner_token_ssm = "arn:aws:ssm:us-east-1:821585847758:parameter/ForgeGitLabECSSecret"
+  project_name            = "ephemeral"
+  vpc_cidr_block          = "10.0.0.0/24" #or you can pass in `private_subnets = ["your_subnet_id"]` to use an already existing VPC
+  gitlab_runner_ecr_uri   = "<account_id>.dkr.ecr.us-east-1.amazonaws.com/ecs-gitlab-runner:latest"
+  gitlab_runner_token_ssm = "arn:aws:ssm:us-east-1:<account_id>:parameter/ecs-gitlab-runner-secret"
+  enable_flow_log         = false
 
   additional_ecs_policies = {
     ec2 = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
+    s3  = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
   }
 
   tags = {
-    "t_AppID"       = "SVC04295"
-    "t_dcl"         = "3"
-    "Owner"         = "lucas.hughes@pearson.com"
-    "t_environment" = "DEMO"
+    "Owner"       = "lucas.j.hughes@outlook.com"
+    "environment" = "DEMO"
+    "project"     = "gitlab-runners"
   }
 }
 ```

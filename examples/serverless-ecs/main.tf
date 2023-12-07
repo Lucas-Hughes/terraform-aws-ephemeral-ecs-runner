@@ -9,6 +9,7 @@ module "serverless_ecs" {
   vpc_cidr_block          = "10.0.0.0/24"
   gitlab_runner_ecr_uri   = "" #your baked ECR image + version, see README.md
   gitlab_runner_token_ssm = "" #your gitlab runner registration token, see README.md
+  enable_flow_log         = false
 
   additional_ecs_policies = {
     ec2 = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
@@ -16,7 +17,7 @@ module "serverless_ecs" {
   }
 
   tags = {
-    "Owner"       = "lucas.hughes@pearson.com"
+    "Owner"       = "lucas.j.hughes@outlook.com"
     "environment" = "DEMO"
     "project"     = "gitlab-runners"
   }
